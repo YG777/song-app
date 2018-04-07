@@ -43,7 +43,8 @@ function searchApi(searchTerm, callback) {
 function convertObj(jsonApiSong) {
   var song = {};
   song.Artist = jsonApiSong.artist.name;
-  song.Id = jsonApiSong.Id;
+  song.Id = jsonApiSong.id;
+  song.Title = jsonApiSong.title;
   song.Chords = jsonApiSong.chordsPresent;
  
   if (jsonApiSong.chordsPresent === true) {
