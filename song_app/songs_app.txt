@@ -5,3 +5,6 @@ https://www.npmjs.com/package/express-generator-mvc
 
 
 
+API obj looks like
+
+
