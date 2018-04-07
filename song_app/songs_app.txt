@@ -1,0 +1,7 @@
+Generated a template for the app:
+npm install express-generator-mvc
+express --ejs --css sass --git song_app
+https://www.npmjs.com/package/express-generator-mvc
+
+
+
