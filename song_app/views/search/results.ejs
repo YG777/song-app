@@ -1,0 +1,26 @@
+<div class="container">
+    <h2>Search results</h2>
+    <div>
+        <% if(songs.length > 0) { %>
+            <div class="row"><% songs.forEach(function(song){ %>
+                <div class="song">
+                    <p>song artist:</p>
+                    <p><%=song.Artist %>
+                    </p>
+                    <p>title:</p>
+                    <p>
+                        <%=song.Title %>
+                    </p>
+                    <p>chords available:</p>
+                    <p>
+                        <%=song.Chords %>
+                    </p>
+               <% }); %>
+                    <% } else{ %>
+                        <p>No matching results, try again</p>
+                        <a href="#" onclick="history.back();">Back</a>
+                        <% } %>
+                </div>
+            </div>
+    </div>
+</div>
