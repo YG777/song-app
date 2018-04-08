@@ -3,20 +3,19 @@ const http = require('http');
 function searchApi(searchTerm, callback) {
   searchTerm = encodeURIComponent(searchTerm);
   const url = 'http://www.songsterr.com/a/ra/songs/byartists.json?artists="' + searchTerm + '"';
-  console.log(url);
+
   http
     .get(url, function(res) {
-      var body = '';
+      let body = '';
       res.on('data', function(chunk) {
         body += chunk;
       });
 
       res.on('end', function() {
-        var jsonResponse = JSON.parse(body);
-        var songs = [];
-        for (var i = 0; i < jsonResponse.length; i++) {
+        const jsonResponse = JSON.parse(body);
+        const songs = [];
+        for (let i = 0; i < jsonResponse.length; i++) {
           const song = convertObj(jsonResponse[i]);
-          console.log(song);
           songs.push(song);
         }
         callback(songs);
@@ -26,7 +25,7 @@ function searchApi(searchTerm, callback) {
 }
 
 function convertObj(jsonApiSong) {
-  var song = {};
+  const song = {};
   song.Artist = jsonApiSong.artist.name;
   song.Id = jsonApiSong.id;
   song.Title = jsonApiSong.title;
@@ -37,7 +36,6 @@ function convertObj(jsonApiSong) {
   } else {
     song.Chords = 'No';
   }
-
   return song;
 }
 
