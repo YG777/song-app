@@ -1,42 +1,27 @@
-var http = require("http");
-
-//www.songsterr.com/a/ra/songs.json?pattern=Marley&&artist.name=Marley&&chordsPresent=true
+const http = require('http');
 
 function searchApi(searchTerm, callback) {
   searchTerm = encodeURIComponent(searchTerm);
-  var options = {
-    host: "songsterr.com",
-    port: 80,
-    path:
-      "a/ra/songs.json?pattern=(" +
-      searchTerm +
-      ")&&artist.name=(" +
-      searchTerm +
-      ")",
-    method: "GET"
-  };
+  const url = 'http://www.songsterr.com/a/ra/songs/byartists.json?artists="' + searchTerm + '"';
+  console.log(url);
+  http
+    .get(url, function(res) {
+      var body = '';
+      res.on('data', function(chunk) {
+        body += chunk;
+      });
 
-  http.request(options, function(res) {
-    // retrieve data chunks and create a string representation of them
-    var body = "";
-    res.on("data", function(chunk) {
-      body += chunk;
-    });
-
-    res.on("end", function() {
-      //convert data to json object
-      var jsonResponse = JSON.parse(body);
-      var songs = [];
-      if (jsonResponse.songs !== undefined) {
-        //loop through the songs in the response and convert them into our view model
-        for (var i = 0; i < jsonResponse.songs.length; i++) {
-          songs.push(convertObj(jsonResponse.songs[i]));
+      res.on('end', function() {
+        var jsonResponse = JSON.parse(body);
+        var songs = [];
+        for (var i = 0; i < jsonResponse.length; i++) {
+          const song = convertObj(jsonResponse[i]);
+          console.log(song);
+          songs.push(song);
         }
-      }
-      //return the converted view models
-      callback(songs);
-    });
-  })
+        callback(songs);
+      });
+    })
     .end();
 }
 
@@ -46,12 +31,14 @@ function convertObj(jsonApiSong) {
   song.Id = jsonApiSong.id;
   song.Title = jsonApiSong.title;
   song.Chords = jsonApiSong.chordsPresent;
- 
+
   if (jsonApiSong.chordsPresent === true) {
     song.Chords = 'Yes';
   } else {
     song.Chords = 'No';
   }
+
+  return song;
 }
 
 module.exports = {
