@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const home = require('../controllers/home');
+const search = require('../controllers/search');
+
+router.route('/').get(home);
+router.route('/search').get(search.searchForm);
+router.route('/search/results').get(search.search);
 
 module.exports = router;
+
